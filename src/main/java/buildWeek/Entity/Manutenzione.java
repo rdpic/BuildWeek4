@@ -11,18 +11,33 @@ public class Manutenzione  {
     @GeneratedValue
     private Integer id;
 
+    @Column(name = "data_inizio")
     private LocalDate dataInizio;
 
+    @Column(name = "data_fine")
     private LocalDate dataFine;
 
-    @ManyToOne
-    @JoinColumn(name = "id_mezzo")
-    private List<Mezzo> mezzi;
+    /*@ManyToOne
+    @JoinColumn(name = "id_mezzi")
+    private List<Mezzo> mezzi; */
 
-    public Manutenzione(LocalDate dataInizio, LocalDate dataFine, List<Mezzo> mezzi) {
+    @OneToOne
+    @JoinColumn(name = "id_mezzo")
+    private Mezzo mezzo;
+
+    public Manutenzione(LocalDate dataInizio, LocalDate dataFine) {
         this.dataInizio = dataInizio;
         this.dataFine = dataFine;
-        this.mezzi = mezzi;
+
+    }
+
+    public Manutenzione(LocalDate dataInizio, LocalDate dataFine, Mezzo mezzo) {
+        this.dataInizio = dataInizio;
+        this.dataFine = dataFine;
+        this.mezzo = mezzo;
+    }
+
+    public Manutenzione() {
     }
 
     public LocalDate getDataInizio() {
@@ -41,13 +56,13 @@ public class Manutenzione  {
         this.dataFine = dataFine;
     }
 
-    public List<Mezzo> getMezzi() {
+    /*public List<Mezzo> getMezzi() {
         return mezzi;
     }
 
     public void setMezzi(List<Mezzo> mezzi) {
         this.mezzi = mezzi;
-    }
+    } */
 
     public Integer getId() {
         return id;
@@ -55,5 +70,13 @@ public class Manutenzione  {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Mezzo getMezzo() {
+        return mezzo;
+    }
+
+    public void setMezzo(Mezzo mezzo) {
+        this.mezzo = mezzo;
     }
 }

@@ -1,9 +1,12 @@
 package buildWeek.DAO;
 
 import buildWeek.Entity.Biglietto;
+import buildWeek.Entity.BigliettoEAbbonamento;
+import buildWeek.Entity.DistributoreAutomatico;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 
 public class BigliettiDao {
 
@@ -35,6 +38,17 @@ public class BigliettiDao {
         } else {
             System.out.println("Biglietto non presente");
         }
+
+        et.commit();
+    }
+
+    public void update (DistributoreAutomatico biglietto) {
+        EntityTransaction et = em.getTransaction();
+        String queryUpdateString = "SELECT  ";
+        Query queryUpdate = em.createQuery(queryUpdateString);
+        et.begin();
+
+        em.merge(biglietto);
 
         et.commit();
     }

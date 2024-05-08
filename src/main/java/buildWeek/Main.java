@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 import buildWeek.DAO.*;
 import buildWeek.Entity.*;
+import buildWeek.Entity.Manutenzione;
 import buildWeek.Enum.*;
 
 public class Main {
@@ -35,73 +36,61 @@ public class Main {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("trasportopubblico");
         EntityManager em = emf.createEntityManager();
 
-        Utente utente1 = new Utente(Tessera.ABBONATO,"Pippo","Bianchi");
+        Utente utente1 = new Utente(Tessera.ABBONATO,"Pippo", "Bianchi");
         UtentiDao utentiDao = new UtentiDao(em);
         utentiDao.save(utente1);
 
-        Mezzo mezzo1 = new Mezzo(Servizio.ATTIVO, CapienzaMezzo.DUECENTO, TipoMezzo.AUTOBUS);
         List<Mezzo> mezzi = new ArrayList<>();
+
+        Mezzo mezzo1 = new Mezzo(Servizio.ATTIVO, CapienzaMezzo.DUECENTO, TipoMezzo.AUTOBUS);
         mezzi.add(mezzo1);
+
+        Mezzo mezzo2 = new Mezzo(Servizio.IN_MANUTENZIONE, CapienzaMezzo.SESSANTA, TipoMezzo.TRAM);
+        mezzi.add(mezzo2);
 
         MezziDao mezziDao = new MezziDao(em);
         mezziDao.save(mezzi);
 
+        List<Manutenzione> manutenzioni = new ArrayList<>();
+        Manutenzione manutenzione1 = new Manutenzione(LocalDate.of(2024, 1, 20), LocalDate.of(2024, 2, 25), mezzo1);
+        manutenzioni.add(manutenzione1);
+        ManutenzioneDao manutenzioneDao = new ManutenzioneDao(em);
+        manutenzioneDao.save(manutenzioni);
 
         Tratta tratta1 = new Tratta("Roma","Napoli",40,mezzi);
         TrattaDao trattaDao = new TrattaDao(em);
-         trattaDao.save(tratta1);
+        trattaDao.save(tratta1);
 
-        Biglietto biglietto1 = new Biglietto(false, LocalTime.of(10,20,25),LocalTime.of(11,50,55),utente1,tratta1);
+        Biglietto biglietto1 = new Biglietto(false, LocalTime.of(10,20,25),LocalTime.of(11,50,55), utente1, tratta1);
         BigliettiDao bigliettiDao = new BigliettiDao(em);
         bigliettiDao.save(biglietto1);
 
-
-        Viaggio viaggio1 = new Viaggio( LocalTime.of(10,20,25), LocalTime.of(12,20,25),biglietto1,mezzo1);
+        Viaggio viaggio1 = new Viaggio( LocalTime.of(10,20,25), LocalTime.of(12,20,25), biglietto1, mezzo1);
         ViaggioDao viaggioDao = new ViaggioDao(em);
         viaggioDao.save(viaggio1);
 
-        Abbonamento abbonamento1 = new Abbonamento(Stato.ATTIVO,DurataAbbonamento.ANNUALE);
+        Abbonamento abbonamento1 = new Abbonamento(Stato.ATTIVO, DurataAbbonamento.ANNUALE);
         AbbonamentiDao abbonamentiDao = new AbbonamentiDao(em);
         abbonamentiDao.save(abbonamento1);
-
 
         List<BigliettoEAbbonamento> listaTotale = new ArrayList<>();
         listaTotale.add(biglietto1);
         listaTotale.add(abbonamento1);
 
-
-
-
-        DistributoreAutomatico distributore1 = new DistributoreAutomatico(StatoDistributori.ATTIVO,listaTotale);
+        DistributoreAutomatico distributore1 = new DistributoreAutomatico(StatoDistributori.ATTIVO, listaTotale);
         List<DistributoreAutomatico> distributori = new ArrayList<>();
         distributori.add(distributore1);
         DistributoreAutomaticoDao distributoreAutomaticoDao = new DistributoreAutomaticoDao(em);
         distributoreAutomaticoDao.save(distributori);
 
-        Rivenditore rivenditore1 = new Rivenditore();
+        Rivenditore rivenditore1 = new Rivenditore("Atac", "Piazza Conca d'Oro", listaTotale);
         List<Rivenditore> rivenditori = new ArrayList<>();
         rivenditori.add(rivenditore1);
         RivenditoreDao rivenditoreDao = new RivenditoreDao(em);
         rivenditoreDao.save(rivenditori);
 
-       BigliettoEAbbonamento bigliettoEAbbonamento = new BigliettoEAbbonamento(distributori,rivenditori);
-
-       Manutenzione manutenzione1 = new Manutenzione(LocalDate.of(2024, 1,10), LocalDate.of(2024, 2,15),);
-       List<Manutenzione> manutenzioni = new ArrayList<>();
-       manutenzioni.add(manutenzione1);
-       ManutenzioneDao manutenzioneDao = new ManutenzioneDao(em);
-       manutenzioneDao.save(manutenzioni);
-
-
-
-
-
-
-
-
-
-
-
+        BigliettoEAbbonamento bigliettoEAbbonamento = new BigliettoEAbbonamento(distributori, rivenditori);
+        listaTotale.add(bigliettoEAbbonamento);
 
 
 

@@ -25,7 +25,7 @@ public class BigliettoEAbbonamento {
     private List<Rivenditore> rivenditori;
 
 
-    public BigliettoEAbbonamento( List<DistributoreAutomatico> distributoriAutomatici, List<Rivenditore> rivenditori) {
+    public BigliettoEAbbonamento(List<DistributoreAutomatico> distributoriAutomatici, List<Rivenditore> rivenditori) {
 
         this.distributoriAutomatici = distributoriAutomatici;
         this.rivenditori = rivenditori;

@@ -24,6 +24,9 @@ public class Mezzo {
     @Enumerated(EnumType.STRING)
     private TipoMezzo tipoMezzo;
 
+    @OneToOne(mappedBy = "mezzo")
+    private Manutenzione manutenzione;
+
     @ManyToMany
     @JoinTable(name = "mezzo_tratta",
     joinColumns = @JoinColumn(name = "mezzo_id"),
@@ -74,5 +77,29 @@ public class Mezzo {
 
     public void setCapienza(CapienzaMezzo capienza) {
         this.capienza = capienza;
+    }
+
+    public Manutenzione getManutenzione() {
+        return manutenzione;
+    }
+
+    public void setManutenzione(Manutenzione manutenzione) {
+        this.manutenzione = manutenzione;
+    }
+
+    public List<Tratta> getTratte() {
+        return tratte;
+    }
+
+    public void setTratte(List<Tratta> tratte) {
+        this.tratte = tratte;
+    }
+
+    public List<Viaggio> getViaggi() {
+        return viaggi;
+    }
+
+    public void setViaggi(List<Viaggio> viaggi) {
+        this.viaggi = viaggi;
     }
 }
